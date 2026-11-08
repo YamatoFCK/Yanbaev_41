@@ -23,7 +23,11 @@ namespace Yanbaev_41
         public ProductPage()
         {
             InitializeComponent();
+
+            var currentProducts = new Yanbaev_41Entities().Product.ToList();
+            ProductListView.ItemsSource = currentProducts;
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

@@ -9,15 +9,77 @@
       Title="ProductPage" FontFamily="Comic Sans MS">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
         <Button Content="Вперед"
                 Width="175"
                 Height="30"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
                 Margin="15"
-                Click="Button_Click">
-        </Button>
-        
-        
+                Click="Button_Click"/>
+
+        <ListView Name="ProductListView"
+                  Grid.Row="1"
+                  Margin="10">
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Width="110"
+                               Height="110"
+                               Stretch="Uniform">
+                            <Image.Source>
+                                <Binding Path="MainImagePath">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>/res/picture.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <StackPanel Grid.Column="1"
+                                    Margin="10,0">
+
+                            <TextBlock Text="{Binding ProductName}"
+                                       FontSize="18"
+                                       FontWeight="Bold"/>
+
+                            <TextBlock Text="{Binding ProductDescription}"
+                                       TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding ProductManufacturer}"/>
+                            <TextBlock Text="{Binding ProductCost, StringFormat='{}{0:N2} руб.'}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2"
+                                    HorizontalAlignment="Center">
+
+                            <TextBlock Text="Скидка"/>
+                            <TextBlock Text="{Binding ProductDiscountAmount, StringFormat='{}{0}%'}"
+                                       FontSize="22"
+                                       FontWeight="Bold">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
+
 </Page>
