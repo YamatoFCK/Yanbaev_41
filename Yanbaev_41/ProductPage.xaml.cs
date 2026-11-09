@@ -20,18 +20,82 @@ namespace Yanbaev_41
     /// </summary>
     public partial class ProductPage : Page
     {
+        List<Product> allProducts;
+
         public ProductPage()
         {
             InitializeComponent();
-
-            var currentProducts = new Yanbaev_41Entities().Product.ToList();
-            ProductListView.ItemsSource = currentProducts;
+            allProducts = new Yanbaev_41Entities().Product.ToList();
+            UpdateProducts();
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void UpdateProducts()
         {
-            Manager.MainFrame.Navigate(new AddEditPage());
+            var currentProducts = allProducts.ToList();
+
+            // Поиск по наименованию
+            currentProducts = currentProducts.Where(p =>
+                p.ProductName.ToLower().Contains(
+                    TBoxSearch.Text.ToLower())).ToList();
+
+            if (ComboType.SelectedIndex == 1)
+            {
+                currentProducts = currentProducts
+                    .Where(p => p.ProductDiscountAmount < 10).ToList();
+            }
+
+            if (ComboType.SelectedIndex == 2)
+            {
+                currentProducts = currentProducts
+                    .Where(p => p.ProductDiscountAmount >= 10 &&
+                                p.ProductDiscountAmount < 15).ToList();
+            }
+
+            if (ComboType.SelectedIndex == 3)
+            {
+                currentProducts = currentProducts
+                    .Where(p => p.ProductDiscountAmount >= 15).ToList();
+            }
+
+            if (RButtonUp.IsChecked == true)
+            {
+                currentProducts = currentProducts
+                    .OrderBy(p => p.ProductCost).ToList();
+            }
+
+            if (RButtonDown.IsChecked == true)
+            {
+                currentProducts = currentProducts
+                    .OrderByDescending(p => p.ProductCost).ToList();
+            }
+
+            ProductListView.ItemsSource = currentProducts;
+
+            TBlockCount.Text = currentProducts.Count +
+                               " из " + allProducts.Count;
         }
+
+
+        private void TBoxSearch_TextChanged(object sender,
+            TextChangedEventArgs e)
+        {
+            if (allProducts != null)
+                UpdateProducts();
+        }
+
+        private void Sort_Checked(object sender, RoutedEventArgs e)
+        {
+            if (allProducts != null)
+                UpdateProducts();
+        }
+
+        private void ComboType_SelectionChanged(object sender,
+            SelectionChangedEventArgs e)
+        {
+            if (allProducts != null)
+                UpdateProducts();
+        }
+
     }
 }

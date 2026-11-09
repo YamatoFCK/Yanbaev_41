@@ -14,12 +14,60 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Content="Вперед"
-                Width="175"
-                Height="30"
-                HorizontalAlignment="Left"
-                Margin="15"
-                Click="Button_Click"/>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="15,10">
+
+            <TextBlock Name="TBlockCount"
+                       Text="0 из 0"
+                       VerticalAlignment="Center"
+                       Margin="20"/>
+
+            <TextBlock Text="Поиск по наименованию:"
+                       VerticalAlignment="Center"
+                       Margin="10"/>
+
+            <TextBox Name="TBoxSearch"
+                     Width="200"
+                     Height="30"
+                     TextChanged="TBoxSearch_TextChanged"/>
+
+
+            <StackPanel Orientation="Vertical"
+                        Margin="20">
+
+                <RadioButton Name="RButtonUp"
+                             Content="По возрастанию стоимости"
+                             GroupName="Sort"
+                             IsChecked="True"
+                             Checked="Sort_Checked"/>
+
+                <RadioButton Name="RButtonDown"
+                             Content="По убыванию стоимости"
+                             GroupName="Sort"
+                             Checked="Sort_Checked"/>
+
+                <StackPanel Orientation="Vertical"
+                            Margin="20,0,0,0">
+
+                    <TextBlock Text="Фильтрация по скидке"/>
+
+                    <ComboBox Name="ComboType"
+                              Width="170"
+                              Height="30"
+                              SelectedIndex="0"
+                              SelectionChanged="ComboType_SelectionChanged">
+
+                        <ComboBoxItem Content="Все диапазоны"/>
+                        <ComboBoxItem Content="0-9,99%"/>
+                        <ComboBoxItem Content="10-14,99%"/>
+                        <ComboBoxItem Content="15% и более"/>
+
+                    </ComboBox>
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
 
         <ListView Name="ProductListView"
                   Grid.Row="1"

@@ -33,7 +33,7 @@
                NavigationUIVisibility="Hidden"
                ContentRendered="MainFrame_ContentRendered">
         </Frame>
-        <Button x:Name="BtnBack"
+        <Button Name="BtnBack"
                 Grid.Row="2"
                 Content="Назад"
                 Width="100"
