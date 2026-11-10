@@ -97,5 +97,39 @@ namespace Yanbaev_41
                 UpdateProducts();
         }
 
+
+        public ProductPage(User user) : this()
+        {
+            if (user == null)
+                return;
+
+            TBlockAuthLabel.Text = "Вы авторизованы как: ";
+
+            FIOTB.Text = user.UserSurname + " " +
+                         user.UserName + " " +
+                         user.UserPatronymic;
+
+            switch (user.UserRole)
+            {
+                case 1:
+                    RoleTB.Text = "Клиент";
+                    break;
+
+                case 2:
+                    RoleTB.Text = "Менеджер";
+                    break;
+
+                case 3:
+                    RoleTB.Text = "Администратор";
+                    break;
+
+                default:
+                    RoleTB.Text = "Неизвестная роль";
+                    break;
+            }
+        }
+
+
     }
+
 }

@@ -23,10 +23,8 @@ namespace Yanbaev_41
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new ProductPage());
             Manager.MainFrame = MainFrame;
-            
-
+            MainFrame.Navigate(new AuthPage());
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
