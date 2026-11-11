@@ -21,6 +21,9 @@ namespace Yanbaev_41
     public partial class ProductPage : Page
     {
         List<Product> allProducts;
+        List<CartItem> cartItems = new List<CartItem>();
+        User currentUser;
+
 
         public ProductPage()
         {
@@ -100,6 +103,7 @@ namespace Yanbaev_41
 
         public ProductPage(User user) : this()
         {
+            currentUser = user;
             if (user == null)
                 return;
 
@@ -128,6 +132,50 @@ namespace Yanbaev_41
                     break;
             }
         }
+
+
+
+        private void AddToOrder_Click(object sender, RoutedEventArgs e)
+        {
+            Product product = ProductListView.SelectedItem as Product;
+
+            if (product == null)
+            {
+                MessageBox.Show("Выберите товар");
+                return;
+            }
+
+            CartItem item = cartItems.FirstOrDefault(p =>
+                p.Product.ProductArticleNumber == product.ProductArticleNumber);
+
+            if (item == null)
+            {
+                cartItems.Add(new CartItem
+                {
+                    Product = product,
+                    Quantity = 1
+                });
+            }
+            else
+            {
+                item.Quantity++;
+            }
+
+            BtnOrder.Visibility = Visibility.Visible;
+        }
+
+        private void BtnOrder_Click(object sender, RoutedEventArgs e)
+        {
+            OrderWindow orderWindow = new OrderWindow(cartItems, currentUser);
+
+            orderWindow.Owner = Window.GetWindow(this);
+            orderWindow.ShowDialog();
+
+            if (cartItems.Count == 0)
+                BtnOrder.Visibility = Visibility.Collapsed;
+        }
+
+
 
 
     }
